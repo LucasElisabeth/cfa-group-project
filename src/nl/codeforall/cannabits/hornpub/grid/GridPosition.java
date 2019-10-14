@@ -64,25 +64,19 @@ public class GridPosition {
         return grid;
     }
 
-    public static void gridTest() throws InterruptedException {
-        Grid grid = new Grid(85, 40);
-        GridPosition rectangle = new GridPosition(60, 29, grid);
-        GridPosition animeGirl = new GridPosition(40, 29, grid);
+
+    public static void gridPositionTest() throws InterruptedException {
+        Grid grid = new Grid(50, 20);
+        GridPosition speedyRunner = new GridPosition(5, 9, grid);
+        GridPosition animeGirl = new GridPosition(8, 2, grid);
         animeGirl.setColor(Color.PINK);
 
-        for (int i = 0; i <= grid.getCol() ; i++){
-
-            for (int j = 0; j <= grid.getRow();j++){
-                new Rectangle(i * Grid.CELLSIZE + Grid.PADDING,j * Grid.CELLSIZE + Grid.PADDING, Grid.CELLSIZE, Grid.CELLSIZE).draw();
-            }
-        }
-
 
         Thread.sleep(1000);
-        rectangle.move(-100, 0);
+        speedyRunner.move(-100, 0);
         animeGirl.move(0, -100);
         Thread.sleep(1000);
-        rectangle.move(100, 0);
+        speedyRunner.move(100, 0);
         animeGirl.move(0, 100);
     }
 }

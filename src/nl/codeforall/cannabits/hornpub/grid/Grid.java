@@ -2,10 +2,11 @@ package nl.codeforall.cannabits.hornpub.grid;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Grid {
     public static final int PADDING = 10;
-    public static final int CELLSIZE = 30;
+    public static final int CELLSIZE = 20;
     private int col;
     private int row;
 
@@ -41,9 +42,11 @@ public class Grid {
     }
 
     private void makeGrid(){
+
         for (int i = 0; i <= col ; i++){
             for (int j = 0; j <= row;j++){
-                new Rectangle(i * Grid.CELLSIZE + Grid.PADDING,j * Grid.CELLSIZE + Grid.PADDING, Grid.CELLSIZE, Grid.CELLSIZE).draw();
+               Picture tile = new Picture(columnToX(i),rowToY(j),"source/greenTile.jpg" );
+               tile.draw();
             }
         }
     }
