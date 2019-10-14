@@ -5,21 +5,21 @@ import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 public class Grid {
     public static final int PADDING = 10;
-    public static final int CELLSIZE = 20;
+    public static final int CELLSIZE = 30;
     private int col;
     private int row;
 
     public Grid(int col, int row) {
          this.col = col;
          this.row = row;
-         new Rectangle(PADDING,PADDING,columnToX(col),rowToY(row)).draw();
+         makeGrid();
     }
 
-    private int width(){
+    public int width(){
         return col * CELLSIZE;
     }
 
-    private int height(){
+    public int height(){
         return row * CELLSIZE;
     }
 
@@ -38,5 +38,13 @@ public class Grid {
 
     public int getCol() {
         return col;
+    }
+
+    private void makeGrid(){
+        for (int i = 0; i <= col ; i++){
+            for (int j = 0; j <= row;j++){
+                new Rectangle(i * Grid.CELLSIZE + Grid.PADDING,j * Grid.CELLSIZE + Grid.PADDING, Grid.CELLSIZE, Grid.CELLSIZE).draw();
+            }
+        }
     }
 }
