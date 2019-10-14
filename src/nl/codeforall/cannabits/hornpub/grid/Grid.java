@@ -1,6 +1,10 @@
 package nl.codeforall.cannabits.hornpub.grid;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Rectangle;
+
 public class Grid {
+    public static final int PADDING = 10;
     public static final int CELLSIZE = 20;
     private int col;
     private int row;
@@ -8,19 +12,25 @@ public class Grid {
     public Grid(int col, int row) {
          this.col = col;
          this.row = row;
+         new Rectangle(PADDING,PADDING,columnToX(col),rowToY(row)).draw();
     }
 
-    public void init() {
-
+    private int width(){
+        return col * CELLSIZE;
     }
 
-    private int columnToX(int col) {
-         return 0;
+    private int height(){
+        return row * CELLSIZE;
     }
 
-    private int rowToY(int row) {
-        return 0;
+    public int columnToX(int col) {
+         return col * CELLSIZE + PADDING;
     }
+
+    public int rowToY(int row) {
+        return row * CELLSIZE + PADDING;
+    }
+
 
     public int getRow() {
         return row;
