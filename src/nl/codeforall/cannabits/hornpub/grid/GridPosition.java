@@ -35,8 +35,8 @@ public class GridPosition {
             moveRangeY = -image.getY() + Grid.PADDING;
         }
 
-        if (moveRangeY + image.getY() > grid.height()){
-            moveRangeY = grid.height() - image.getY() + Grid.PADDING;
+        if (moveRangeY + image.getY() - image.getHeight() > grid.height()){
+            moveRangeY = grid.height() - image.getY() - image.getHeight() + Grid.PADDING;
         }
 
         return moveRangeY;
@@ -49,8 +49,8 @@ public class GridPosition {
             moveRangeX = -image.getX() + Grid.PADDING;
         }
 
-        if (moveRangeX + image.getX() > grid.width()){
-            moveRangeX = grid.width() - image.getX() + Grid.PADDING;
+        if (moveRangeX + image.getX() - image.getWidth() > grid.width()){
+            moveRangeX = grid.width() - image.getX() - image.getWidth() + Grid.PADDING;
         }
 
         return moveRangeX;
@@ -66,7 +66,7 @@ public class GridPosition {
 
 
     public static void gridPositionTest() throws InterruptedException {
-        Grid grid = new Grid(50, 20);
+        Grid grid = new Grid(30, 15);
         GridPosition speedyRunner = new GridPosition(5, 9, grid);
         GridPosition animeGirl = new GridPosition(8, 2, grid);
         animeGirl.setColor(Color.PINK);
@@ -78,5 +78,6 @@ public class GridPosition {
         Thread.sleep(1000);
         speedyRunner.move(100, 0);
         animeGirl.move(0, 100);
+
     }
 }

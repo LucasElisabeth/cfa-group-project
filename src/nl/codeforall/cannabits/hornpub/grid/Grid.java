@@ -6,7 +6,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Grid {
     public static final int PADDING = 10;
-    public static final int CELLSIZE = 20;
+    public static final int CELLSIZE = 50;
     private int col;
     private int row;
 
@@ -42,10 +42,10 @@ public class Grid {
     }
 
     private void makeGrid(){
-
-        for (int i = 0; i <= col ; i++){
-            for (int j = 0; j <= row;j++){
-               Picture tile = new Picture(columnToX(i),rowToY(j),"source/greenTile.jpg" );
+        new Rectangle(PADDING,PADDING,width(),height()).draw();
+        for (int i = 0; i < col ; i++){
+            for (int j = 0; j < row;j++){
+               Picture tile = new Picture(columnToX(i),rowToY(j),"source/blank50x50.png" );
                tile.draw();
             }
         }
