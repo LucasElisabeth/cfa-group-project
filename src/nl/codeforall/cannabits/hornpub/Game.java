@@ -18,6 +18,11 @@ public class Game implements KeyboardHandler {
     }
 
     public void start() {
+        KeyboardEvent select = new KeyboardEvent();
+        select.setKey(KeyboardEvent.KEY_SPACE);
+        select.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(select);
+
         keyboardMethodsPlayer1();
         keyboardMethodsPlayer2();
     }
