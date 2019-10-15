@@ -21,18 +21,12 @@ public abstract class Fighter extends GameObject implements Attackable {
     }
 
     public void takeDamage(int attackDamage) {
-        if (fighterType.healthPoints > 0) {
+        if (!isDestroyed()) {
             fighterType.healthPoints -= attackDamage / (int) (fighterType.getDefence() * 0.3);
-            return;
         }
-
     }
 
     public boolean isDestroyed() {
-        return false;
+        return fighterType.healthPoints <= 0;
     }
-
-//    public int health() {
-//        return fighterType.getHealthPoints();
-//    }
 }
