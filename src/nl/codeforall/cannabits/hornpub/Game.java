@@ -28,6 +28,10 @@ public class Game implements KeyboardHandler {
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
+        switch (keyboardEvent.getKey()) {
+            case KeyboardEvent.KEY_DOWN:
+
+        }
     }
 
     @Override

@@ -1,14 +1,14 @@
 package nl.codeforall.cannabits.hornpub;
 
+import nl.codeforall.cannabits.hornpub.grid.GridPosition;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         System.out.println("Hello hornpub players!");
 
-        Player player1 = new Player();
-        Player player2 = new Player();
-        Game game = new Game(player1, player2);
-
-        game.start();
+        GridPosition.gridPositionTest();
     }
+
+
 }
