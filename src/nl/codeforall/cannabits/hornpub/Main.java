@@ -11,8 +11,8 @@ public class Main {
         Player p2 = new Player();
         Game game = new Game(p1, p2);
 
-//        GridPosition.gridPositionTest();
-        game.start();
+        GridPosition.gridPositionTest();
+//        game.start();
 
     }
 

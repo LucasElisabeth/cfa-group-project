@@ -21,12 +21,12 @@ public class GridPosition {
         image.fill();
     }
 
-    public GridPosition(int col, int row, Grid grid, int width, int height) {
+    public GridPosition(int col, int row, Grid grid, Color color ) {
 
         this.grid = grid;
-        image = new Rectangle(grid.columnToX(col) + 5, grid.rowToY(row) + 5, width - 10, height - 10);
-        image.setColor(Color.RED);
-        image.draw();
+        image = new Rectangle(grid.columnToX(col), grid.rowToY(row), Grid.CELLSIZE, Grid.CELLSIZE);
+        image.setColor(color);
+        image.fill();
     }
 
     public void move(int moveRangeCol, int moveRangeRow) {
