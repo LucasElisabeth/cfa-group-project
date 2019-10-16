@@ -43,7 +43,7 @@ public class GridPosition {
             moveRangeY = -image.getY() + Grid.PADDING;
         }
 
-        if (moveRangeY + image.getY() - image.getHeight() > grid.height()){
+        if (moveRangeY + image.getY() + Grid.PADDING > grid.height()){
             moveRangeY = grid.height() - image.getY() - image.getHeight() + Grid.PADDING;
         }
 
@@ -57,7 +57,7 @@ public class GridPosition {
             moveRangeX = -image.getX() + Grid.PADDING;
         }
 
-        if (moveRangeX + image.getX() - image.getWidth() > grid.width()){
+        if (moveRangeX + image.getX() + Grid.PADDING > grid.width()){
             moveRangeX = grid.width() - image.getX() - image.getWidth() + Grid.PADDING;
         }
 
