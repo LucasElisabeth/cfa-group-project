@@ -22,36 +22,9 @@ public class Game implements KeyboardHandler {
     }
 
     public void start() {
-        Keyboard keyboard = new Keyboard(this);
-        KeyboardEvent goLeft = new KeyboardEvent();
-        KeyboardEvent goRight = new KeyboardEvent();
-        KeyboardEvent goUp = new KeyboardEvent();
-        KeyboardEvent goDown = new KeyboardEvent();
+        keyboardMethodsPlayers();
 
-        goLeft.setKey(KeyboardEvent.KEY_LEFT);
-        goLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        goDown.setKey(KeyboardEvent.KEY_DOWN);
-        goDown.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        goRight.setKey(KeyboardEvent.KEY_RIGHT);
-        goRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        goUp.setKey(KeyboardEvent.KEY_UP);
-        goUp.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-
-        keyboard.addEventListener(goDown);
-        keyboard.addEventListener(goLeft);
-        keyboard.addEventListener(goUp);
-        keyboard.addEventListener(goRight);
-
-        KeyboardEvent select = new KeyboardEvent();
-        KeyboardEvent confirm = new KeyboardEvent();
-        select.setKey(KeyboardEvent.KEY_SPACE);
-        select.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        confirm.setKey(KeyboardEvent.KEY_ENTER);
-        confirm.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-
-        keyboard.addEventListener(confirm);
-        keyboard.addEventListener(select);
-        Grid grid = new Grid(30,15);
+        Grid grid = new Grid(15,9);
         GridPosition narutoRunner = new GridPosition(5, 9, grid);
         GridPosition animeGirl = new GridPosition(8, 2, grid);
 
@@ -87,34 +60,36 @@ public class Game implements KeyboardHandler {
 
     }
 
-//    public void keyboardMethodsPlayers() {
-//        KeyboardEvent goLeft = new KeyboardEvent();
-//        KeyboardEvent goRight = new KeyboardEvent();
-//        KeyboardEvent goUp = new KeyboardEvent();
-//        KeyboardEvent goDown = new KeyboardEvent();
-//
-//        goLeft.setKey(KeyboardEvent.KEY_LEFT);
-//        goLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-//        goDown.setKey(KeyboardEvent.KEY_DOWN);
-//        goDown.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-//        goRight.setKey(KeyboardEvent.KEY_RIGHT);
-//        goRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-//        goUp.setKey(KeyboardEvent.KEY_UP);
-//        goUp.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-//
-//        keyboard.addEventListener(goDown);
-//        keyboard.addEventListener(goLeft);
-//        keyboard.addEventListener(goUp);
-//        keyboard.addEventListener(goRight);
-//
-//        KeyboardEvent select = new KeyboardEvent();
-//        KeyboardEvent confirm = new KeyboardEvent();
-//        select.setKey(KeyboardEvent.KEY_SPACE);
-//        select.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-//        confirm.setKey(KeyboardEvent.KEY_ENTER);
-//        confirm.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-//
-//        keyboard.addEventListener(confirm);
-//        keyboard.addEventListener(select);
-//    }
+    public void keyboardMethodsPlayers() {
+        Keyboard keyboard = new Keyboard(this);
+
+        KeyboardEvent goLeft = new KeyboardEvent();
+        KeyboardEvent goRight = new KeyboardEvent();
+        KeyboardEvent goUp = new KeyboardEvent();
+        KeyboardEvent goDown = new KeyboardEvent();
+
+        goLeft.setKey(KeyboardEvent.KEY_LEFT);
+        goLeft.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        goDown.setKey(KeyboardEvent.KEY_DOWN);
+        goDown.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        goRight.setKey(KeyboardEvent.KEY_RIGHT);
+        goRight.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        goUp.setKey(KeyboardEvent.KEY_UP);
+        goUp.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        keyboard.addEventListener(goDown);
+        keyboard.addEventListener(goLeft);
+        keyboard.addEventListener(goUp);
+        keyboard.addEventListener(goRight);
+
+        KeyboardEvent select = new KeyboardEvent();
+        KeyboardEvent confirm = new KeyboardEvent();
+        select.setKey(KeyboardEvent.KEY_SPACE);
+        select.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        confirm.setKey(KeyboardEvent.KEY_ENTER);
+        confirm.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        keyboard.addEventListener(confirm);
+        keyboard.addEventListener(select);
+    }
 }
