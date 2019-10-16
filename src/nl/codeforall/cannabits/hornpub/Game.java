@@ -25,7 +25,7 @@ public class Game implements KeyboardHandler {
         keyboardMethodsPlayers();
 
         Grid grid = new Grid(15,9);
-        GridPosition narutoRunner = new GridPosition(5, 9, grid);
+        GridPosition narutoRunner = new GridPosition(5, 8, grid);
         GridPosition animeGirl = new GridPosition(8, 2, grid);
 
         selectCell = new GridPosition(0, 0, grid, Color.RED);
@@ -50,6 +50,7 @@ public class Game implements KeyboardHandler {
                 break;
             case KeyboardEvent.KEY_RIGHT:
                 selectCell.move(1, 0);
+                break;
 
 
         }

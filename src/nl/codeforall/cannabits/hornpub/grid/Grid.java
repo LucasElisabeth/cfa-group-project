@@ -6,7 +6,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Grid {
     public static final int PADDING = 10;
-    public static final int CELLSIZE = 70;
+    public static final int CELLSIZE = 50;
     private int col;
     private int row;
 
