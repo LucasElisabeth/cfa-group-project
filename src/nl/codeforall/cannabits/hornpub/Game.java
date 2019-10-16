@@ -1,15 +1,20 @@
 package nl.codeforall.cannabits.hornpub;
 
+import nl.codeforall.cannabits.hornpub.grid.Grid;
+import nl.codeforall.cannabits.hornpub.grid.GridPosition;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
+
+import java.awt.*;
 
 public class Game implements KeyboardHandler {
 
     private Player player1;
     private Player player2;
     private Keyboard keyboard;
+    private GridPosition selectCell;
 
 
     public Game(Player player1, Player player2) {
@@ -18,13 +23,13 @@ public class Game implements KeyboardHandler {
     }
 
     public void start() {
-        KeyboardEvent select = new KeyboardEvent();
-        select.setKey(KeyboardEvent.KEY_SPACE);
-        select.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        keyboard.addEventListener(select);
+        Grid grid = new Grid(30,15);
+        GridPosition narutoRunner = new GridPosition(5, 9, grid);
+        GridPosition animeGirl = new GridPosition(8, 2, grid);
 
-        keyboardMethodsPlayer1();
-        keyboardMethodsPlayer2();
+        selectCell = new GridPosition(0, 0, grid, Grid.CELLSIZE, Grid.CELLSIZE);
+
+        keyboardMethodsPlayers();
     }
 
 
@@ -35,6 +40,9 @@ public class Game implements KeyboardHandler {
 
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_DOWN:
+                selectCell.move(0, Grid.CELLSIZE);
+                break;
+
 
         }
     }
@@ -44,7 +52,7 @@ public class Game implements KeyboardHandler {
 
     }
 
-    public void keyboardMethodsPlayer1() {
+    public void keyboardMethodsPlayers() {
         KeyboardEvent goLeft = new KeyboardEvent();
         KeyboardEvent goRight = new KeyboardEvent();
         KeyboardEvent goUp = new KeyboardEvent();
@@ -63,27 +71,15 @@ public class Game implements KeyboardHandler {
         keyboard.addEventListener(goLeft);
         keyboard.addEventListener(goUp);
         keyboard.addEventListener(goRight);
+
+        KeyboardEvent select = new KeyboardEvent();
+        KeyboardEvent confirm = new KeyboardEvent();
+        select.setKey(KeyboardEvent.KEY_SPACE);
+        select.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        confirm.setKey(KeyboardEvent.KEY_ENTER);
+        confirm.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+
+        keyboard.addEventListener(confirm);
+        keyboard.addEventListener(select);
     }
-
-    public void keyboardMethodsPlayer2() {
-        KeyboardEvent goLeft2 = new KeyboardEvent();
-        KeyboardEvent goRight2 = new KeyboardEvent();
-        KeyboardEvent goUp2 = new KeyboardEvent();
-        KeyboardEvent goDown2 = new KeyboardEvent();
-
-        goLeft2.setKey(KeyboardEvent.KEY_A);
-        goLeft2.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        goDown2.setKey(KeyboardEvent.KEY_S);
-        goDown2.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        goRight2.setKey(KeyboardEvent.KEY_D);
-        goRight2.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        goUp2.setKey(KeyboardEvent.KEY_W);
-        goUp2.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-
-        keyboard.addEventListener(goDown2);
-        keyboard.addEventListener(goLeft2);
-        keyboard.addEventListener(goUp2);
-        keyboard.addEventListener(goRight2);
-    }
-
 }

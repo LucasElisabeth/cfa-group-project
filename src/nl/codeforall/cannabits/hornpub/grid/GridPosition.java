@@ -21,6 +21,14 @@ public class GridPosition {
         image.fill();
     }
 
+    public GridPosition(int col, int row, Grid grid, int width, int height) {
+
+        this.grid = grid;
+        image = new Rectangle(grid.columnToX(col) + 5, grid.rowToY(row) + 5, width - 10, height - 10);
+        image.setColor(Color.RED);
+        image.draw();
+    }
+
     public void move(int moveRangeCol, int moveRangeRow) {
 
         image.translate( colToX(moveRangeCol) ,rowToY(moveRangeRow));
@@ -67,16 +75,16 @@ public class GridPosition {
 
     public static void gridPositionTest() throws InterruptedException {
         Grid grid = new Grid(30, 15);
-        GridPosition speedyRunner = new GridPosition(5, 9, grid);
+        GridPosition narutoRunner = new GridPosition(5, 9, grid);
         GridPosition animeGirl = new GridPosition(8, 2, grid);
         animeGirl.setColor(Color.PINK);
 
 
         Thread.sleep(1000);
-        speedyRunner.move(-100, 0);
+        narutoRunner.move(-100, 0);
         animeGirl.move(0, -100);
         Thread.sleep(1000);
-        speedyRunner.move(100, 0);
+        narutoRunner.move(100, 0);
         animeGirl.move(0, 100);
 
     }
