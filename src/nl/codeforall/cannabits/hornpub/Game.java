@@ -69,12 +69,14 @@ public class Game implements KeyboardHandler {
                     selectCell.setColor(Color.BLUE);
                     animeGirl.hideImage();
                     break;
-                } else if (comparePositionsWithAnimeGirl) {
+                }  else {
+                    selectCell.setColor(Color.RED);
+                    break;
+                }
+            case KeyboardEvent.KEY_ENTER:
+                if (comparePositionsWithAnimeGirl && animeGirl.isHidden()) {
                     selectCell.setColor(Color.PINK);
                     animeGirl.showImage();
-                    break;
-                } else {
-                    selectCell.setColor(Color.RED);
                     break;
                 }
 
