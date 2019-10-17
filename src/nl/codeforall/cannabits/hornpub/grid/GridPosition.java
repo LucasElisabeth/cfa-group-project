@@ -4,11 +4,11 @@ package nl.codeforall.cannabits.hornpub.grid;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
-import javax.print.attribute.standard.RequestingUserName;
 
 public class GridPosition {
     private Grid grid;
     private Rectangle image;
+    private boolean hidden;
 
     public GridPosition(Grid grid){
          this((int) (Math.random() * grid.getCol() ), (int) (Math.random() * grid.getRow()) , grid);
@@ -19,6 +19,7 @@ public class GridPosition {
         this.grid = grid;
         image = new Rectangle(grid.columnToX(col), grid.rowToY(row), Grid.CELLSIZE, Grid.CELLSIZE);
         image.fill();
+        hidden = false;
     }
 
     public GridPosition(int col, int row, Grid grid, Color color ) {
@@ -27,12 +28,27 @@ public class GridPosition {
         image = new Rectangle(grid.columnToX(col), grid.rowToY(row), Grid.CELLSIZE, Grid.CELLSIZE);
         image.setColor(color);
         image.fill();
+        hidden = false;
     }
 
     public void move(int moveRangeCol, int moveRangeRow) {
 
         image.translate( colToX(moveRangeCol) ,rowToY(moveRangeRow));
 
+    }
+
+    public void showImage() {
+        image.fill();
+        hidden = false;
+    }
+
+    public void hideImage() {
+        image.delete();
+        hidden = true;
+    }
+
+    public boolean isHidden() {
+        return hidden;
     }
 
     private int rowToY(int moveRangeRow){

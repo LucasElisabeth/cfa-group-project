@@ -14,6 +14,7 @@ public class Game implements KeyboardHandler {
     private Player player1;
     private Player player2;
     private GridPosition selectCell;
+    private GridPosition animeGirl;
 
 
     public Game(Player player1, Player player2) {
@@ -24,33 +25,58 @@ public class Game implements KeyboardHandler {
     public void start() {
         keyboardMethodsPlayers();
 
-        Grid grid = new Grid(15,9);
+        Grid grid = new Grid(15, 9);
         GridPosition narutoRunner = new GridPosition(5, 8, grid);
-        GridPosition animeGirl = new GridPosition(8, 2, grid);
+        animeGirl = new GridPosition(8, 2, grid);
 
         selectCell = new GridPosition(0, 0, grid, Color.RED);
 
     }
 
 
-
-
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
+
+        boolean comparePositionsWithAnimeGirl = selectCell.getGrid().rowToY(selectCell.getGrid().getRow()) == animeGirl.getGrid().rowToY(animeGirl.getGrid().getRow()) && selectCell.getGrid().columnToX(selectCell.getGrid().getCol()) == animeGirl.getGrid().columnToX(animeGirl.getGrid().getCol());
 
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_DOWN:
                 selectCell.move(0, 1);
+                if (comparePositionsWithAnimeGirl && animeGirl.isHidden()) {
+                    animeGirl.move(0, 1);
+                }
                 break;
             case KeyboardEvent.KEY_UP:
                 selectCell.move(0, -1);
+                if (comparePositionsWithAnimeGirl && animeGirl.isHidden()) {
+                    animeGirl.move(0, -1);
+                }
                 break;
             case KeyboardEvent.KEY_LEFT:
                 selectCell.move(-1, 0);
+                if (comparePositionsWithAnimeGirl && animeGirl.isHidden()) {
+                    animeGirl.move(-1, 0);
+                }
                 break;
             case KeyboardEvent.KEY_RIGHT:
                 selectCell.move(1, 0);
+                if (comparePositionsWithAnimeGirl && animeGirl.isHidden()) {
+                    animeGirl.move(1, 0);
+                }
                 break;
+            case KeyboardEvent.KEY_SPACE:
+                if (comparePositionsWithAnimeGirl && !animeGirl.isHidden()) {
+                    selectCell.setColor(Color.BLUE);
+                    animeGirl.hideImage();
+                    break;
+                } else if (comparePositionsWithAnimeGirl) {
+                    selectCell.setColor(Color.PINK);
+                    animeGirl.showImage();
+                    break;
+                } else {
+                    selectCell.setColor(Color.RED);
+                    break;
+                }
 
 
         }
@@ -61,7 +87,7 @@ public class Game implements KeyboardHandler {
 
     }
 
-    public void keyboardMethodsPlayers() {
+    private void keyboardMethodsPlayers() {
         Keyboard keyboard = new Keyboard(this);
 
         KeyboardEvent goLeft = new KeyboardEvent();
