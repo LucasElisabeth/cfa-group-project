@@ -15,6 +15,7 @@ public class Game implements KeyboardHandler {
     private Player player2;
     private GridPosition selectCell;
     private GridPosition animeGirl;
+    private int spaceCounter = 0;
 
 
     public Game(Player player1, Player player2) {
@@ -73,15 +74,17 @@ public class Game implements KeyboardHandler {
                 if (comparePositionsWithAnimeGirl() && !animeGirl.isHidden()) {
                     selectCell.setColor(Color.BLUE);
                     animeGirl.hideImage();
+                    spaceCounter++;
                     break;
-                }  else {
-                    selectCell.setColor(Color.RED);
+                } else {
+                    selectCell.setColor(Color.PINK);
                     break;
                 }
             case KeyboardEvent.KEY_ENTER:
-                if (comparePositionsWithAnimeGirl() && animeGirl.isHidden()) {
-                    selectCell.setColor(Color.PINK);
+                if (comparePositionsWithAnimeGirl() && animeGirl.isHidden() && spaceCounter == 1) {
+                    selectCell.setColor(Color.RED);
                     animeGirl.showImage();
+                    spaceCounter = 0;
                     break;
                 }
 
