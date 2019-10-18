@@ -1,16 +1,19 @@
 package nl.codeforall.cannabits.hornpub;
 
-import nl.codeforall.cannabits.hornpub.grid.Grid;
 import nl.codeforall.cannabits.hornpub.grid.GridPosition;
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Hello hornpub players!");
 
-        GridPosition.gridPositionTest();
+        Player p1 = new Player();
+        Player p2 = new Player();
+        Game game = new Game(p1, p2);
+
+//        GridPosition.gridPositionTest();
+        game.start();
+
     }
 
 

@@ -4,11 +4,11 @@ package nl.codeforall.cannabits.hornpub.grid;
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 
-import javax.print.attribute.standard.RequestingUserName;
 
 public class GridPosition {
     private Grid grid;
     private Rectangle image;
+    private boolean selected;
 
     public GridPosition(Grid grid){
          this((int) (Math.random() * grid.getCol() ), (int) (Math.random() * grid.getRow()) , grid);
@@ -19,12 +19,36 @@ public class GridPosition {
         this.grid = grid;
         image = new Rectangle(grid.columnToX(col), grid.rowToY(row), Grid.CELLSIZE, Grid.CELLSIZE);
         image.fill();
+        selected = false;
+    }
+
+    public GridPosition(int col, int row, Grid grid, Color color ) {
+
+        this.grid = grid;
+        image = new Rectangle(grid.columnToX(col), grid.rowToY(row), Grid.CELLSIZE, Grid.CELLSIZE);
+        image.setColor(color);
+        image.fill();
+        selected = false;
     }
 
     public void move(int moveRangeCol, int moveRangeRow) {
 
         image.translate( colToX(moveRangeCol) ,rowToY(moveRangeRow));
 
+    }
+
+    public void showImage() {
+        image.fill();
+        selected = false;
+    }
+
+    public void hideImage() {
+        image.delete();
+        selected = true;
+    }
+
+    public boolean isSelected() {
+        return selected;
     }
 
     private int rowToY(int moveRangeRow){
@@ -64,19 +88,22 @@ public class GridPosition {
         return grid;
     }
 
+    public Rectangle getImage(){
+        return image;
+    }
 
     public static void gridPositionTest() throws InterruptedException {
         Grid grid = new Grid(30, 15);
-        GridPosition speedyRunner = new GridPosition(5, 9, grid);
+        GridPosition narutoRunner = new GridPosition(5, 9, grid);
         GridPosition animeGirl = new GridPosition(8, 2, grid);
         animeGirl.setColor(Color.PINK);
 
 
         Thread.sleep(1000);
-        speedyRunner.move(-100, 0);
+        narutoRunner.move(-100, 0);
         animeGirl.move(0, -100);
         Thread.sleep(1000);
-        speedyRunner.move(100, 0);
+        narutoRunner.move(100, 0);
         animeGirl.move(0, 100);
 
     }

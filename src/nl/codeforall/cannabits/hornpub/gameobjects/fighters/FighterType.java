@@ -3,7 +3,7 @@ package nl.codeforall.cannabits.hornpub.gameobjects.fighters;
 public enum FighterType {
     ANIMEGIRL(100, 50, 25, 3);
 
-    private int healthPoints;
+    protected int healthPoints;
     private int attackDamage;
     private int defence;
     private int moveRange;

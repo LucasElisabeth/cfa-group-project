@@ -45,7 +45,7 @@ public class Grid {
         new Rectangle(PADDING,PADDING,width(),height()).draw();
         for (int i = 0; i < col ; i++){
             for (int j = 0; j < row;j++){
-               Picture tile = new Picture(columnToX(i),rowToY(j),"source/blank50x50.png" );
+               Picture tile = new Picture(columnToX(i),rowToY(j),"source/cell-frame.png" );
                tile.draw();
             }
         }
