@@ -6,7 +6,7 @@ public class GameObject {
 
     protected GridPosition position;
 
-    public GridPosition getPosition() {
-        return position;
+    public GameObject(GridPosition gridPosition) {
+        position = gridPosition;
     }
 }
