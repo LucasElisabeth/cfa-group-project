@@ -8,7 +8,7 @@ import org.academiadecodigo.simplegraphics.graphics.Rectangle;
 public class GridPosition {
     private Grid grid;
     private Rectangle image;
-    private boolean hidden;
+    private boolean selected;
 
     public GridPosition(Grid grid){
          this((int) (Math.random() * grid.getCol() ), (int) (Math.random() * grid.getRow()) , grid);
@@ -19,7 +19,7 @@ public class GridPosition {
         this.grid = grid;
         image = new Rectangle(grid.columnToX(col), grid.rowToY(row), Grid.CELLSIZE, Grid.CELLSIZE);
         image.fill();
-        hidden = false;
+        selected = false;
     }
 
     public GridPosition(int col, int row, Grid grid, Color color ) {
@@ -28,7 +28,7 @@ public class GridPosition {
         image = new Rectangle(grid.columnToX(col), grid.rowToY(row), Grid.CELLSIZE, Grid.CELLSIZE);
         image.setColor(color);
         image.fill();
-        hidden = false;
+        selected = false;
     }
 
     public void move(int moveRangeCol, int moveRangeRow) {
@@ -39,16 +39,16 @@ public class GridPosition {
 
     public void showImage() {
         image.fill();
-        hidden = false;
+        selected = false;
     }
 
     public void hideImage() {
         image.delete();
-        hidden = true;
+        selected = true;
     }
 
-    public boolean isHidden() {
-        return hidden;
+    public boolean isSelected() {
+        return selected;
     }
 
     private int rowToY(int moveRangeRow){
@@ -88,6 +88,9 @@ public class GridPosition {
         return grid;
     }
 
+    public Rectangle getImage(){
+        return image;
+    }
 
     public static void gridPositionTest() throws InterruptedException {
         Grid grid = new Grid(30, 15);

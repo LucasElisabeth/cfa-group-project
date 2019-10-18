@@ -15,12 +15,13 @@ public class Game implements KeyboardHandler {
     private Player player2;
     private GridPosition selectCell;
     private GridPosition animeGirl;
-    private int spaceCounter = 0;
+    private boolean spacePressed;
 
 
     public Game(Player player1, Player player2) {
         this.player1 = player1;
         this.player2 = player2;
+        spacePressed = false;
     }
 
     public void start() {
@@ -35,10 +36,9 @@ public class Game implements KeyboardHandler {
     }
 
     private boolean comparePositionsWithAnimeGirl() {
-        if (selectCell.getGrid().rowToY(selectCell.getGrid().getRow()) == animeGirl.getGrid().rowToY(animeGirl.getGrid().getRow()) && selectCell.getGrid().columnToX(selectCell.getGrid().getCol()) == animeGirl.getGrid().columnToX(animeGirl.getGrid().getCol())) {
-            return true;
-        }
-        return false;
+        return selectCell.getImage().getY() == animeGirl.getImage().getY()
+                && selectCell.getImage().getX() == animeGirl.getImage().getX() ;
+
     }
 
     @Override
@@ -48,43 +48,43 @@ public class Game implements KeyboardHandler {
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_DOWN:
                 selectCell.move(0, 1);
-                if (comparePositionsWithAnimeGirl() && animeGirl.isHidden()) {
+                if (animeGirl.isSelected()) {
                     animeGirl.move(0, 1);
                 }
                 break;
             case KeyboardEvent.KEY_UP:
                 selectCell.move(0, -1);
-                if (comparePositionsWithAnimeGirl() && animeGirl.isHidden()) {
+                if (animeGirl.isSelected()) {
                     animeGirl.move(0, -1);
                 }
                 break;
             case KeyboardEvent.KEY_LEFT:
                 selectCell.move(-1, 0);
-                if (comparePositionsWithAnimeGirl() && animeGirl.isHidden()) {
+                if (animeGirl.isSelected()) {
                     animeGirl.move(-1, 0);
                 }
                 break;
             case KeyboardEvent.KEY_RIGHT:
                 selectCell.move(1, 0);
-                if (comparePositionsWithAnimeGirl() && animeGirl.isHidden()) {
+                if (animeGirl.isSelected()) {
                     animeGirl.move(1, 0);
                 }
                 break;
             case KeyboardEvent.KEY_SPACE:
-                if (comparePositionsWithAnimeGirl() && !animeGirl.isHidden()) {
+                if (comparePositionsWithAnimeGirl() && !animeGirl.isSelected()) {
                     selectCell.setColor(Color.BLUE);
                     animeGirl.hideImage();
-                    spaceCounter++;
+                    spacePressed = true;
                     break;
                 } else {
                     selectCell.setColor(Color.PINK);
                     break;
                 }
             case KeyboardEvent.KEY_ENTER:
-                if (comparePositionsWithAnimeGirl() && animeGirl.isHidden() && spaceCounter == 1) {
+                if (animeGirl.isSelected() && spacePressed) {
                     selectCell.setColor(Color.RED);
                     animeGirl.showImage();
-                    spaceCounter = 0;
+                    spacePressed = false;
                     break;
                 }
 
