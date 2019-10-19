@@ -7,10 +7,8 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Hello hornpub players!");
 
-        Player p1 = new Player();
-        Player p2 = new Player();
-        Game game = new Game(p1, p2);
-
+        Game game = new Game();
+        game.init();
 //        GridPosition.gridPositionTest();
         game.start();
 

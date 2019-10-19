@@ -4,13 +4,13 @@ import nl.codeforall.cannabits.hornpub.gameobjects.fighters.AnimeGirl;
 import nl.codeforall.cannabits.hornpub.gameobjects.fighters.Fighter;
 
 public class Player {
-    int currentFighter;
+    private int currentFighter;
 
 
     private Fighter[] fighters;
 
-    public Player(){
-        fighters = new Fighter[2];
+    public Player(Fighter[] fighters){
+        this.fighters = fighters;
         currentFighter = 0;
     }
 

@@ -1,5 +1,7 @@
 package nl.codeforall.cannabits.hornpub;
 
+import nl.codeforall.cannabits.hornpub.factory.FighterFactory;
+import nl.codeforall.cannabits.hornpub.gameobjects.fighters.Fighter;
 import nl.codeforall.cannabits.hornpub.grid.Grid;
 import nl.codeforall.cannabits.hornpub.grid.GridPosition;
 import org.academiadecodigo.simplegraphics.graphics.Color;
@@ -11,33 +13,76 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
 public class Game implements KeyboardHandler {
 
+    private Grid grid;
+    private GridPosition selectCell;
+
     private Player player1;
     private Player player2;
-    private GridPosition selectCell;
-    private GridPosition animeGirl;
+
+    private Fighter selectedFighter;
     private boolean spacePressed;
+    private RoundPhase roundPhase;
 
 
-    public Game(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public Game() {
+
+        grid = new Grid(15, 9);
         spacePressed = false;
+        player1 = new Player(new Fighter[]{FighterFactory.getFighter(grid)});
+        player2 = new Player(new Fighter[]{FighterFactory.getFighter(grid)});
+        roundPhase = RoundPhase.MOVE;
     }
 
     public void start() {
+        /**
+         * player 1 starts,
+         * round move
+         * round attack
+         * check if p2 lost
+         * round move
+         * round attack
+         * check if player 1 lost
+         */
+
+        while (!player1.hasLost() && !player2.hasLost()){
+
+            selectedFighter = player1.chooseCharacter();
+            roundMove(selectedFighter);
+            roundAttack(selectedFighter);
+
+            if (player2.hasLost()){ break; }
+
+            selectedFighter = player2.chooseCharacter();
+            roundMove(selectedFighter);
+            roundAttack(selectedFighter);
+
+        }
+
+        }
+
+        private void roundMove(Fighter fighter){
+         while (roundPhase == RoundPhase.MOVE){
+             System.out.println("gotta moveit moveit");
+         }
+        }
+
+        private void roundAttack(Fighter fighter){
+            while (roundPhase == RoundPhase.ATTACK){
+                System.out.println("gotta fighht for your right to partyy");
+            }
+        }
+
+
+    public void init(){
+
         keyboardMethodsPlayers();
 
-        Grid grid = new Grid(15, 9);
-        GridPosition narutoRunner = new GridPosition(5, 8, grid);
-        animeGirl = new GridPosition(8, 2, grid);
-
         selectCell = new GridPosition(0, 0, grid, Color.RED);
-
     }
 
-    private boolean comparePositionsWithAnimeGirl() {
-        return selectCell.getImage().getY() == animeGirl.getImage().getY()
-                && selectCell.getImage().getX() == animeGirl.getImage().getX() ;
+    private boolean comparePositionsWithSelectedFighter() {
+        return selectCell.getImage().getY() == selectedFighter.getPosition().getImage().getY()
+                && selectCell.getImage().getX() == selectedFighter.getPosition().getImage().getX() ;
 
     }
 
@@ -48,32 +93,32 @@ public class Game implements KeyboardHandler {
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_DOWN:
                 selectCell.move(0, 1);
-                if (animeGirl.isSelected()) {
-                    animeGirl.move(0, 1);
+                if (selectedFighter.getPosition().isSelected()) {
+                    selectedFighter.getPosition().move(0, 1);
                 }
                 break;
             case KeyboardEvent.KEY_UP:
                 selectCell.move(0, -1);
-                if (animeGirl.isSelected()) {
-                    animeGirl.move(0, -1);
+                if (selectedFighter.getPosition().isSelected()) {
+                    selectedFighter.getPosition().move(0, -1);
                 }
                 break;
             case KeyboardEvent.KEY_LEFT:
                 selectCell.move(-1, 0);
-                if (animeGirl.isSelected()) {
-                    animeGirl.move(-1, 0);
+                if (selectedFighter.getPosition().isSelected()) {
+                    selectedFighter.getPosition().move(-1, 0);
                 }
                 break;
             case KeyboardEvent.KEY_RIGHT:
                 selectCell.move(1, 0);
-                if (animeGirl.isSelected()) {
-                    animeGirl.move(1, 0);
+                if (selectedFighter.getPosition().isSelected()) {
+                    selectedFighter.getPosition().move(1, 0);
                 }
                 break;
             case KeyboardEvent.KEY_SPACE:
-                if (comparePositionsWithAnimeGirl() && !animeGirl.isSelected()) {
+                if (comparePositionsWithSelectedFighter() && !selectedFighter.getPosition().isSelected()) {
                     selectCell.setColor(Color.BLUE);
-                    animeGirl.hideImage();
+                    selectedFighter.getPosition().hideImage();
                     spacePressed = true;
                     break;
                 } else {
@@ -81,9 +126,10 @@ public class Game implements KeyboardHandler {
                     break;
                 }
             case KeyboardEvent.KEY_ENTER:
-                if (animeGirl.isSelected() && spacePressed) {
+                if (selectedFighter.getPosition().isSelected() && spacePressed) {
                     selectCell.setColor(Color.RED);
-                    animeGirl.showImage();
+                    selectedFighter.getPosition().showImage();
+                    roundPhase = roundPhase.nextPhase();
                     spacePressed = false;
                     break;
                 }
@@ -91,6 +137,8 @@ public class Game implements KeyboardHandler {
 
         }
     }
+
+
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {
@@ -128,5 +176,18 @@ public class Game implements KeyboardHandler {
 
         keyboard.addEventListener(confirm);
         keyboard.addEventListener(select);
+    }
+
+
+    private enum RoundPhase{
+        MOVE,
+        ATTACK;
+
+        public RoundPhase nextPhase(){
+            if (this == MOVE){
+                return ATTACK;
+            }
+            return MOVE;
+        }
     }
 }
