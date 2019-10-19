@@ -28,8 +28,9 @@ public class Game implements KeyboardHandler {
 
         grid = new Grid(15, 9);
         spacePressed = false;
-        player1 = new Player(new Fighter[]{FighterFactory.getFighter(grid)});
-        player2 = new Player(new Fighter[]{FighterFactory.getFighter(grid)});
+        FighterFactory fighterFactory = new FighterFactory();
+        player1 = new Player(fighterFactory.createFighters(3,grid));
+        player2 = new Player(fighterFactory.createFighters(3,grid));
         roundPhase = RoundPhase.MOVE;
     }
 
@@ -61,6 +62,9 @@ public class Game implements KeyboardHandler {
         }
 
         private void roundMove(Fighter fighter){
+
+        selectCell.move((fighter.getPosition().getImage().getX() - selectCell.getImage().getX())/ Grid.CELLSIZE,
+                (fighter.getPosition().getImage().getY() - selectCell.getImage().getY())/ Grid.CELLSIZE);
          while (roundPhase == RoundPhase.MOVE){
              System.out.println("gotta moveit moveit");
          }

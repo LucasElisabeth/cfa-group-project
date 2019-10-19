@@ -12,6 +12,7 @@ public class Player {
     public Player(Fighter[] fighters){
         this.fighters = fighters;
         currentFighter = 0;
+
     }
 
     public Fighter chooseCharacter() {
