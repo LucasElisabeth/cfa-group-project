@@ -10,7 +10,7 @@ public abstract class Fighter extends GameObject implements Attackable {
     protected String name;
     protected int movesLeft;
 
-    Fighter(FighterType fighterType, GridPosition gridPosition) {
+    public Fighter(FighterType fighterType, GridPosition gridPosition) {
         super(gridPosition);
         this.fighterType = fighterType;
         healthPoints = fighterType.healthPoints;
@@ -32,6 +32,10 @@ public abstract class Fighter extends GameObject implements Attackable {
         if (!isDestroyed()) {
             fighterType.healthPoints -= attackDamage / (int) (fighterType.getDefence() * 0.3);
         }
+    }
+
+    public GridPosition getPosition(){
+        return position;
     }
 
     public boolean isDestroyed() {
