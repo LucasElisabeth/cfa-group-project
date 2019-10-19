@@ -93,6 +93,35 @@ public class Game implements KeyboardHandler {
     @Override
     public void keyPressed(KeyboardEvent keyboardEvent) {
 
+        if (roundPhase == RoundPhase.MOVE) {
+            keyPressedMovePhase(keyboardEvent);
+        }
+        switch (keyboardEvent.getKey()) {
+
+            case KeyboardEvent.KEY_SPACE:
+                if (comparePositionsWithSelectedFighter() && !selectedFighter.getPosition().isSelected()) {
+                    selectCell.setColor(Color.BLUE);
+                    selectedFighter.getPosition().hideImage();
+                    spacePressed = true;
+                    break;
+                } else {
+                    selectCell.setColor(Color.PINK);
+                    break;
+                }
+            case KeyboardEvent.KEY_ENTER:
+                if (selectedFighter.getPosition().isSelected() && spacePressed) {
+                    selectCell.setColor(Color.RED);
+                    selectedFighter.getPosition().showImage();
+                    roundPhase = roundPhase.nextPhase();
+                    spacePressed = false;
+                    break;
+                }
+
+
+        }
+    }
+
+    private void keyPressedMovePhase(KeyboardEvent keyboardEvent){
 
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_DOWN:
@@ -119,29 +148,8 @@ public class Game implements KeyboardHandler {
                     selectedFighter.getPosition().move(1, 0);
                 }
                 break;
-            case KeyboardEvent.KEY_SPACE:
-                if (comparePositionsWithSelectedFighter() && !selectedFighter.getPosition().isSelected()) {
-                    selectCell.setColor(Color.BLUE);
-                    selectedFighter.getPosition().hideImage();
-                    spacePressed = true;
-                    break;
-                } else {
-                    selectCell.setColor(Color.PINK);
-                    break;
-                }
-            case KeyboardEvent.KEY_ENTER:
-                if (selectedFighter.getPosition().isSelected() && spacePressed) {
-                    selectCell.setColor(Color.RED);
-                    selectedFighter.getPosition().showImage();
-                    roundPhase = roundPhase.nextPhase();
-                    spacePressed = false;
-                    break;
-                }
-
-
         }
     }
-
 
 
     @Override

@@ -8,20 +8,14 @@ public abstract class Fighter extends GameObject implements Attackable {
     protected int healthPoints;
     protected FighterType fighterType;
     protected String name;
-    protected int movesLeft;
 
     public Fighter(FighterType fighterType, GridPosition gridPosition) {
         super(gridPosition);
         this.fighterType = fighterType;
         healthPoints = fighterType.healthPoints;
-        movesLeft = fighterType.getMoveRange();
     }
 
     public void move() {
-        if (movesLeft > 0) {
-            //stuff
-            movesLeft--;
-        }
     }
 
     public void attack(Attackable attackable) {
@@ -40,6 +34,14 @@ public abstract class Fighter extends GameObject implements Attackable {
 
     public boolean isDestroyed() {
         return healthPoints <= 0;
+    }
+
+    public int attackRange(){
+        return fighterType.attackRange;
+    }
+
+    public int moveRange(){
+        return fighterType.moveRange;
     }
 
     @Override
