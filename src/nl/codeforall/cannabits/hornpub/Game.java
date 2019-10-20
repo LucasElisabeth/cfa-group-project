@@ -10,6 +10,8 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 
+import java.util.LinkedList;
+
 
 public class Game implements KeyboardHandler {
 
@@ -49,13 +51,13 @@ public class Game implements KeyboardHandler {
 
             selectedFighter = player1.chooseCharacter();
             roundMove(selectedFighter);
-            roundAttack(selectedFighter);
+            roundAttack(selectedFighter,player2);
 
             if (player2.hasLost()){ break; }
 
             selectedFighter = player2.chooseCharacter();
             roundMove(selectedFighter);
-            roundAttack(selectedFighter);
+            roundAttack(selectedFighter,player1);
 
         }
 
@@ -70,7 +72,8 @@ public class Game implements KeyboardHandler {
          }
         }
 
-        private void roundAttack(Fighter fighter){
+        private void roundAttack(Fighter fighter,Player enemyPlayer){
+           fighter.getPosition().getImage().setColor(Color.GREEN);
             while (roundPhase == RoundPhase.ATTACK){
                 System.out.println("gotta fighht for your right to partyy");
             }
@@ -96,6 +99,9 @@ public class Game implements KeyboardHandler {
         if (roundPhase == RoundPhase.MOVE) {
             keyPressedMovePhase(keyboardEvent);
         }
+        if (roundPhase == RoundPhase.ATTACK){
+            keyPressedAttackPhase(keyboardEvent);
+        }
         switch (keyboardEvent.getKey()) {
 
             case KeyboardEvent.KEY_SPACE:
@@ -119,6 +125,24 @@ public class Game implements KeyboardHandler {
 
 
         }
+    }
+
+    private Fighter[] enemiesInRange(Fighter fighter,Player enemyPlayer){
+        LinkedList<Fighter> enemyFightersInRange = new LinkedList<>();
+        int initX = fighter.getPosition().getImage().getX();
+        int initY = fighter.getPosition().getImage().getY();
+
+        for (Fighter enemyFighter : enemyPlayer.getFighters()){
+            if (enemyFighter.getPosition().getImage().getX() <= initX + fighter.attackRange() * Grid.CELLSIZE &&
+                    enemyFighter.getPosition().getImage().getX() >= initX - fighter.attackRange() * Grid.CELLSIZE &&
+                    enemyFighter.getPosition().getImage().getY() <= initY + fighter.attackRange() + Grid.CELLSIZE &&
+                    enemyFighter.getPosition().getImage().getY() >= initX - fighter.attackRange() * Grid.CELLSIZE) {
+               enemyFighter.getPosition().getImage().setColor(Color.GREEN);
+
+            }
+
+        }
+        return (Fighter[]) enemyFightersInRange.toArray();
     }
 
     private void keyPressedMovePhase(KeyboardEvent keyboardEvent){
@@ -151,6 +175,23 @@ public class Game implements KeyboardHandler {
         }
     }
 
+    private void keyPressedAttackPhase(KeyboardEvent keyboardEvent){
+
+        switch (keyboardEvent.getKey()) {
+            case KeyboardEvent.KEY_LEFT:
+                selectCell.move(-1, 0);
+                if (selectedFighter.getPosition().isSelected()) {
+                    selectedFighter.getPosition().move(-1, 0);
+                }
+                break;
+            case KeyboardEvent.KEY_RIGHT:
+                selectCell.move(1, 0);
+                if (selectedFighter.getPosition().isSelected()) {
+                    selectedFighter.getPosition().move(1, 0);
+                }
+                break;
+        }
+    }
 
     @Override
     public void keyReleased(KeyboardEvent keyboardEvent) {

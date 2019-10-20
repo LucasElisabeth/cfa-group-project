@@ -47,7 +47,7 @@ public class Player {
         }
     }
 
-
-
-
+    public Fighter[] getFighters() {
+        return fighters;
+    }
 }
