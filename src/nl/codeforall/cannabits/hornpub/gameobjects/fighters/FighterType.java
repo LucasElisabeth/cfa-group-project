@@ -1,7 +1,7 @@
 package nl.codeforall.cannabits.hornpub.gameobjects.fighters;
 
 public enum FighterType {
-    ANIMEGIRL(100, 50, 25, 3,3),
+    ANIMEGIRL(1, 50, 25, 3,3),
     UNICORN_RIDING_CAT(150,30,20,5,2);
 
     protected int healthPoints;

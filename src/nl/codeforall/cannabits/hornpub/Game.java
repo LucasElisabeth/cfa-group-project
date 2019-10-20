@@ -5,6 +5,7 @@ import nl.codeforall.cannabits.hornpub.gameobjects.fighters.Fighter;
 import nl.codeforall.cannabits.hornpub.grid.Grid;
 import nl.codeforall.cannabits.hornpub.grid.GridPosition;
 import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -25,6 +26,7 @@ public class Game implements KeyboardHandler {
     private boolean spacePressed;
     private RoundPhase roundPhase;
 
+    private int choiceMenu;
 
     public Game() {
 
@@ -34,6 +36,7 @@ public class Game implements KeyboardHandler {
         player1 = new Player(fighterFactory.createFighters(3,grid));
         player2 = new Player(fighterFactory.createFighters(3,grid));
         roundPhase = RoundPhase.MOVE;
+        choiceMenu = 0;
     }
 
     public void start() {
@@ -67,16 +70,61 @@ public class Game implements KeyboardHandler {
 
         selectCell.move((fighter.getPosition().getImage().getX() - selectCell.getImage().getX())/ Grid.CELLSIZE,
                 (fighter.getPosition().getImage().getY() - selectCell.getImage().getY())/ Grid.CELLSIZE);
+            System.out.println("gotta moveit moveit");
+            System.out.println("my hitpoints :" + fighter.getHealthPoints());
+            Text text = new Text(fighter.getPosition().getImage().getX(),fighter.getPosition().getImage().getY()-10,Integer.toString(fighter.getHealthPoints()));
          while (roundPhase == RoundPhase.MOVE){
+
              System.out.println("gotta moveit moveit");
          }
         }
 
         private void roundAttack(Fighter fighter,Player enemyPlayer){
-           fighter.getPosition().getImage().setColor(Color.GREEN);
+
+           Fighter[] enemiesInRange = enemiesInRange(fighter, enemyPlayer);
+            System.out.println("gotta fighht for your right to partyy");
+
             while (roundPhase == RoundPhase.ATTACK){
-                System.out.println("gotta fighht for your right to partyy");
+
+                if (enemiesInRange.length == 0){
+                    roundPhase = RoundPhase.MOVE;
+                    return;
+                }
+                //all enemies in range turn green
+                if (!spacePressed) {
+                    for (Fighter enemy : enemiesInRange) {
+                        enemy.getPosition().getImage().setColor(Color.GREEN);
+                    }
+                }
+
+                    if (choiceMenu == enemiesInRange.length){
+                        choiceMenu = 0;
+                    }
+                    if (choiceMenu < 0){
+                        choiceMenu = enemiesInRange.length-1;
+                    }
+
+                    while (enemiesInRange[choiceMenu].isDestroyed()){
+                        choiceMenu++;
+
+                        if (choiceMenu == enemiesInRange.length){
+                            choiceMenu = 0;
+                        }
+
+                    }
+                    //seleted enemy turns yellow;
+                    enemiesInRange[choiceMenu].getPosition().getImage().setColor(Color.YELLOW);
             }
+            fighter.attack(enemiesInRange[choiceMenu]);
+
+            for (Fighter enemy : enemiesInRange) {
+                enemy.getPosition().getImage().setColor(Color.BLACK);
+            }
+
+            if (enemiesInRange[choiceMenu].isDestroyed()){
+                enemiesInRange[choiceMenu].getPosition().getImage().delete();
+            }
+
         }
 
 
@@ -102,29 +150,7 @@ public class Game implements KeyboardHandler {
         if (roundPhase == RoundPhase.ATTACK){
             keyPressedAttackPhase(keyboardEvent);
         }
-        switch (keyboardEvent.getKey()) {
 
-            case KeyboardEvent.KEY_SPACE:
-                if (comparePositionsWithSelectedFighter() && !selectedFighter.getPosition().isSelected()) {
-                    selectCell.setColor(Color.BLUE);
-                    selectedFighter.getPosition().hideImage();
-                    spacePressed = true;
-                    break;
-                } else {
-                    selectCell.setColor(Color.PINK);
-                    break;
-                }
-            case KeyboardEvent.KEY_ENTER:
-                if (selectedFighter.getPosition().isSelected() && spacePressed) {
-                    selectCell.setColor(Color.RED);
-                    selectedFighter.getPosition().showImage();
-                    roundPhase = roundPhase.nextPhase();
-                    spacePressed = false;
-                    break;
-                }
-
-
-        }
     }
 
     private Fighter[] enemiesInRange(Fighter fighter,Player enemyPlayer){
@@ -135,14 +161,15 @@ public class Game implements KeyboardHandler {
         for (Fighter enemyFighter : enemyPlayer.getFighters()){
             if (enemyFighter.getPosition().getImage().getX() <= initX + fighter.attackRange() * Grid.CELLSIZE &&
                     enemyFighter.getPosition().getImage().getX() >= initX - fighter.attackRange() * Grid.CELLSIZE &&
-                    enemyFighter.getPosition().getImage().getY() <= initY + fighter.attackRange() + Grid.CELLSIZE &&
-                    enemyFighter.getPosition().getImage().getY() >= initX - fighter.attackRange() * Grid.CELLSIZE) {
-               enemyFighter.getPosition().getImage().setColor(Color.GREEN);
+                    enemyFighter.getPosition().getImage().getY() <= initY + fighter.attackRange() * Grid.CELLSIZE &&
+                    enemyFighter.getPosition().getImage().getY() >= initY - fighter.attackRange() * Grid.CELLSIZE){
 
+                enemyFightersInRange.add(enemyFighter);
             }
 
         }
-        return (Fighter[]) enemyFightersInRange.toArray();
+
+        return enemyFightersInRange.toArray(new Fighter[enemyFightersInRange.size()]);
     }
 
     private void keyPressedMovePhase(KeyboardEvent keyboardEvent){
@@ -172,6 +199,24 @@ public class Game implements KeyboardHandler {
                     selectedFighter.getPosition().move(1, 0);
                 }
                 break;
+            case KeyboardEvent.KEY_SPACE:
+                if (comparePositionsWithSelectedFighter() && !selectedFighter.getPosition().isSelected()) {
+                    selectCell.setColor(Color.BLUE);
+                    selectedFighter.getPosition().hideImage();
+                    spacePressed = true;
+                    break;
+                } else {
+                    selectCell.setColor(Color.PINK);
+                    break;
+                }
+            case KeyboardEvent.KEY_ENTER:
+                if (selectedFighter.getPosition().isSelected() && spacePressed) {
+                    selectCell.setColor(Color.RED);
+                    selectedFighter.getPosition().showImage();
+                    roundPhase = roundPhase.nextPhase();
+                    spacePressed = false;
+                    break;
+                }
         }
     }
 
@@ -179,16 +224,19 @@ public class Game implements KeyboardHandler {
 
         switch (keyboardEvent.getKey()) {
             case KeyboardEvent.KEY_LEFT:
-                selectCell.move(-1, 0);
-                if (selectedFighter.getPosition().isSelected()) {
-                    selectedFighter.getPosition().move(-1, 0);
-                }
+                if (spacePressed){break;}
+                choiceMenu--;
                 break;
             case KeyboardEvent.KEY_RIGHT:
-                selectCell.move(1, 0);
-                if (selectedFighter.getPosition().isSelected()) {
-                    selectedFighter.getPosition().move(1, 0);
-                }
+                if (spacePressed){break;}
+                choiceMenu++;
+                break;
+            case KeyboardEvent.KEY_SPACE:
+                spacePressed = !spacePressed;
+                break;
+            case KeyboardEvent.KEY_ENTER:
+                if(!spacePressed){break;}
+                roundPhase = RoundPhase.MOVE;
                 break;
         }
     }

@@ -24,7 +24,7 @@ public abstract class Fighter extends GameObject implements Attackable {
 
     public void takeDamage(int attackDamage) {
         if (!isDestroyed()) {
-            fighterType.healthPoints -= attackDamage / (int) (fighterType.getDefence() * 0.3);
+            healthPoints -= attackDamage / (int) (fighterType.getDefence() * 0.3);
         }
     }
 
@@ -42,6 +42,9 @@ public abstract class Fighter extends GameObject implements Attackable {
 
     public int moveRange(){
         return fighterType.moveRange;
+    }
+    public int getHealthPoints(){
+        return healthPoints;
     }
 
     @Override
